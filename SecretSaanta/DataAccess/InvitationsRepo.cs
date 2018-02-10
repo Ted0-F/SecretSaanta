@@ -10,10 +10,10 @@ namespace SecretSantaa.DataAccess
     public interface InvitationsRepo
     {
 
-        async Task<List<Invitation>> getInvitations(string username, string skip, string take, string sortOrder);
+        Task<List<Invitation>> getInvitations(string username, string skip, string take, string sortOrder);
 
-        async void deleteInvitation(string username, string id);
+        void deleteInvitation(string username, string id);
 
-        async Task<string> createInvitation(Invitation aInvitation);
+        Task<string> createInvitation(Invitation aInvitation);
     }
 }

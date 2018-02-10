@@ -12,7 +12,7 @@ namespace SecretSantaa.DataAccess
 
         async Task<List<Models.User>> UsersRepo.getUsers(string aSkip, string aTake, string aSortOrder, string aFilter)
         {
-            List<Models.User> users = new List<Models.User>;
+            List<Models.User> users = new List<Models.User>();
             using (var connection = CreateConnection())
             {
 

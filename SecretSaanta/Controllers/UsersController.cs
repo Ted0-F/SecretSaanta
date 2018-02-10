@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -19,14 +20,14 @@ namespace SecretSantaa.Controllers
 
 
         [HttpGet]
-        public List<Object> getUsers()
+        public async Task<List<Object>> getUsers()
         {
             var skip = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("skip");
             var take = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("take");
             var order = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("order");
             var search = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("search");
 
-            List<Models.User> usersList = mUsersRepo.getUsers(skip, take, order, search);
+            List<Models.User> usersList = await mUsersRepo.getUsers(skip, take, order, search);
             List<Object> usersViewList = new List<Object>();
             foreach(Models.User user in usersList) {
                 usersViewList.Add(new { username = user.username });
@@ -36,9 +37,9 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpGet]
-        public Object getUser([FromUri] string username)
+        public async Task<Object> getUser([FromUri] string username)
         {
-            Models.User user = mUsersRepo.getUserByUsername(username);
+            Models.User user = await mUsersRepo.getUserByUsername(username);
             return new { username = user.username, displayName = user.displayName};
         }
 

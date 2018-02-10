@@ -21,12 +21,12 @@ namespace SecretSantaa.Controllers
 
 
         [HttpGet]
-        public List<Object> getGroups([FromUri] string username)
+        public async Task<List<Object>> getGroups([FromUri] string username)
         {
             var skip = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("skip");
             var take = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("take");
 
-            List<Models.Group> groups = mGroupsRepo.getGroups(username, skip, take);
+            List<Models.Group> groups = await mGroupsRepo.getGroups(username, skip, take);
             List<Object> groupsView = new List<Object>();
 
             foreach (Models.Group group in groups)
@@ -39,7 +39,7 @@ namespace SecretSantaa.Controllers
 
 
         [HttpPost]
-        public Object createGroup(Models.Group aGroup) 
+        public async Task<Object> createGroup(Models.Group aGroup) 
         {
             var headerKey = "xAuthToken";
             var headers = Request.Headers;
@@ -48,7 +48,7 @@ namespace SecretSantaa.Controllers
 
             if (header != null)
             {
-                string username = mSessionsRepo.getUsername(header);
+                string username = await mSessionsRepo.getUsername(header);
                 if (username != null)
                 {
                     mGroupsRepo.createGroup(aGroup.name, username);

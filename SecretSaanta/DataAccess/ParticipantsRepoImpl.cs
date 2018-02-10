@@ -45,7 +45,7 @@ namespace SecretSaanta.DataAccess
 
         public async System.Threading.Tasks.Task<List<SecretSantaa.Models.User>> getParticipants(string aGroupName)
         {
-            List<User> users = new List<User>;
+            List<User> users = new List<User>();
             using (var connection = CreateConnection())
             {
 

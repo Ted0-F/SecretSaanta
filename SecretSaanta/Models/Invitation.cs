@@ -11,6 +11,6 @@ namespace SecretSantaa.Models
         public string username { get; set; }
         public DateTime date { get; set; }
         public string groupAdminName { get; set; }
-        public int id { set; get; }
+        public string id { set; get; }
     }
 }

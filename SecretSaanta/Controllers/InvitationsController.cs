@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -17,13 +18,13 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpGet]
-        public List<Object> getInvitations([FromUri] string username)
+        public async Task<List<Object>> getInvitations([FromUri] string username)
         {
             var skip = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("skip");
             var take = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("take");
             var order = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("order");
 
-            List<Models.Invitation> invitations = mInvitationsRepo.getInvitations(username, skip, take, order);
+            List<Models.Invitation> invitations = await mInvitationsRepo.getInvitations(username, skip, take, order);
             List<Object> invitationsView = new List<Object>();
 
             foreach (Models.Invitation invitation in invitations)
@@ -48,10 +49,10 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpPost]
-        public Object createInvitation([FromBody] Models.Invitation aInvitation, [FromUri] string username)
+        public async Task<Object> createInvitation([FromBody] Models.Invitation aInvitation, [FromUri] string username)
         {
             aInvitation.username = username;
-            string id = mInvitationsRepo.createInvitation(aInvitation);
+            string id = await mInvitationsRepo.createInvitation(aInvitation);
             return new { id = id };
         }
 

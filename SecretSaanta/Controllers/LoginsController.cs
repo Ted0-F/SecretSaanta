@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -18,11 +19,11 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpPost]
-        public Models.Session createSession(Models.User user)
+        public async Task<Models.Session> createSession(Models.User user)
         {
             Models.Session session = new Models.Session();
 
-            string sessionToken = mSessionsRepo.createSession(user);
+            string sessionToken = await mSessionsRepo.createSession(user);
 
             session.authToken = sessionToken;
             return session;
