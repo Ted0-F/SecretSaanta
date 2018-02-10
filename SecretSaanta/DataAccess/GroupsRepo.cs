@@ -10,11 +10,11 @@ namespace SecretSantaa.DataAccess
     public interface GroupsRepo
     {
 
-        List<Group> getGroups(string aUsername, string aSkip, string aTake);
+        async Task<List<Group>> getGroups(string aUsername, string aSkip, string aTake);
 
-        void createGroup(string aName, string aOwner);
+        async void createGroup(string aName, string aOwner);
 
-        string getAdmin(string aGroupName);
+        async Task<string> getAdmin(string aGroupName);
 
     }
 }

@@ -10,10 +10,10 @@ namespace SecretSaanta.DataAccess
     public interface ParticipantsRepo
     {
 
-        void addParticipant(string aGroupName, string aUsername);
+        async void addParticipant(string aGroupName, string aUsername);
 
-        void deleteParticipant(string aGroupName, string aUsername);
+        async void deleteParticipant(string aGroupName, string aUsername);
 
-        List<User> getParticipants(string aGroupName);
+        async Task<List<User>> getParticipants(string aGroupName);
     }
 }

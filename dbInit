@@ -26,7 +26,7 @@ CREATE TABLE Invitations(
 	groupName nvarchar(50) NOT NULL,
 	invitedUsername nvarchar(50) NOT NULL,
 	issued date NOT NULL,
-	id nvarchar(30) unique NOT NULL,
+	id nvarchar(50) unique NOT NULL,
 	primary key (groupName, invitedUsername)
 )
 

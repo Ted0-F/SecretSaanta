@@ -8,18 +8,20 @@ namespace SecretSantaa.DataAccess
 {
     public class InvitationsRepoImpl : BaseRepo, InvitationsRepo
     {
-        List<Models.Invitation> InvitationsRepo.getInvitations(string username, string skip, string take, string sortOrder)
+
+        public async System.Threading.Tasks.Task<List<Models.Invitation>> getInvitations(string username, string skip, string take, string sortOrder)
         {
             throw new NotImplementedException();
         }
 
-        void InvitationsRepo.deleteInvitation(string username, string id)
+        public async void deleteInvitation(string username, string id)
         {
             throw new NotImplementedException();
         }
 
-        string InvitationsRepo.createInvitation(Models.Invitation aInvitation)
+        public async System.Threading.Tasks.Task<string> createInvitation(Models.Invitation aInvitation)
         {
+            string id = Guid.NewGuid().ToString();
             throw new NotImplementedException();
         }
     }

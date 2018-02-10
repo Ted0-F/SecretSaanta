@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace SecretSantaa.DataAccess
@@ -9,10 +10,10 @@ namespace SecretSantaa.DataAccess
     public interface InvitationsRepo
     {
 
-        List<Invitation> getInvitations(string username, string skip, string take, string sortOrder);
+        async Task<List<Invitation>> getInvitations(string username, string skip, string take, string sortOrder);
 
-        void deleteInvitation(string username, string id);
+        async void deleteInvitation(string username, string id);
 
-        string createInvitation(Invitation aInvitation);
+        async Task<string> createInvitation(Invitation aInvitation);
     }
 }

@@ -8,17 +8,18 @@ namespace SecretSantaa.DataAccess
 {
     public class GroupsRepoImpl : BaseRepo, GroupsRepo
     {
-        List<Models.Group> GroupsRepo.getGroups(string aUsername, string aSkip, string aTake)
+
+        public async System.Threading.Tasks.Task<List<Models.Group>> getGroups(string aUsername, string aSkip, string aTake)
         {
             throw new NotImplementedException();
         }
 
-        void GroupsRepo.createGroup(string aName, string aOwner)
+        public async void createGroup(string aName, string aOwner)
         {
             throw new NotImplementedException();
         }
 
-        string GroupsRepo.getAdmin(string aGroupName)
+        public async System.Threading.Tasks.Task<string> getAdmin(string aGroupName)
         {
             throw new NotImplementedException();
         }

@@ -9,10 +9,10 @@ namespace SecretSantaa.DataAccess
     public interface SessionsRepo
     {
 
-        string createSession(Models.User aUser);
+        async Task<string> createSession(Models.User aUser);
 
-        void deleteSession(string aUsername, string aSession);
+        async void deleteSession(string aUsername, string aSession);
 
-        string getUsername(string aSession);
+        async Task<string> getUsername(string aSession);
     }
 }
