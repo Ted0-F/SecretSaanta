@@ -1,0 +1,43 @@
+CREATE TABLE Users(
+	username nvarchar(50) primary key,
+	displayName nvarchar(50) NOT NULL,
+	password nvarchar(128) NOT NULL
+)
+
+create table Sessions(
+	username nvarchar(50) NOT NULL,
+	session_token nvarchar(128) primary key
+)
+
+CREATE TABLE Groups(
+	groupName nvarchar(50) primary key,
+	adminName nvarchar(50) NOT NULL,
+	linked bit NOT NULL
+)
+
+CREATE TABLE Participants(
+	groupName nvarchar(50) NOT NULL,
+	participantUsername nvarchar(50) NOT NULL,
+	gifteeUsername nvarchar(50) NULL,
+	primary key (groupName, participantUsername)
+)
+
+CREATE TABLE Invitations(
+	groupName nvarchar(50) NOT NULL,
+	invitedUsername nvarchar(50) NOT NULL,
+	issued date NOT NULL,
+	id nvarchar(30) unique NOT NULL,
+	primary key (groupName, invitedUsername)
+)
+
+ALTER TABLE Sessions ADD CONSTRAINT sessions_username_fk FOREIGN KEY (username) REFERENCES Users(username);
+
+ALTER TABLE Groups ADD CONSTRAINT groups_username_fk FOREIGN KEY (adminName) REFERENCES Users(username);
+
+ALTER TABLE Participants ADD CONSTRAINT participants_groupName_fk FOREIGN KEY (groupName) REFERENCES Groups(groupName);
+ALTER TABLE Participants ADD CONSTRAINT participants_participant_fk FOREIGN KEY (participantUsername) REFERENCES Users(username);
+ALTER TABLE Participants ADD CONSTRAINT participants_giftee_fk FOREIGN KEY (gifteeUsername) REFERENCES Users(username);
+
+
+ALTER TABLE Invitations ADD CONSTRAINT invitations_groupName_fk FOREIGN KEY (groupName) REFERENCES Groups(groupName);
+ALTER TABLE Invitations ADD CONSTRAINT invitations_username_fk FOREIGN KEY (invitedUsername) REFERENCES Users(username);
