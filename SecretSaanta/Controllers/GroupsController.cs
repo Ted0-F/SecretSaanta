@@ -31,7 +31,7 @@ namespace SecretSantaa.Controllers
 
             foreach (Models.Group group in groups)
             {
-                groupsView.Add(new { groupName = group.name });
+                groupsView.Add(new { groupName = group.name, groupAdmin = group.mOwner.username, linked = group.mIsLinked });
             }
 
             return groupsView;

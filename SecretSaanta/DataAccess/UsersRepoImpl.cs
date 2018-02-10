@@ -18,10 +18,10 @@ namespace SecretSantaa.DataAccess
 
                 await connection.OpenAsync();
                 var command = connection.CreateCommand();
-                command.CommandText = "select username, displayName  from Users" +
-                                       "where username like ?filter" +
-                                       "order by displayName ?sortOrder" +
-                                       "offset ?skip fetch next ?take rows only";
+                command.CommandText = "select username, displayName  from Users " +
+                                       "where username like ?filter " +
+                                       "order by displayName ?sortOrder " +
+                                       "offset ?skip fetch next ?take rows only ";
                 if (aSkip == null || aTake == null)
                 {
                     command.CommandText = "select username, displayName  from Users" +
@@ -45,7 +45,7 @@ namespace SecretSantaa.DataAccess
                     }
                 }
             }
-            throw new NotImplementedException();
+            return users;
         }
 
         async Task<Models.User> UsersRepo.getUserByUsername(string aUsername)
