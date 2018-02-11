@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
+namespace SecretSaanta.DataAccess
 {
     public class BaseRepo
     {
