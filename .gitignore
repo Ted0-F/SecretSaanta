@@ -196,3 +196,5 @@ nuget.exe
 *.transformed.erb
 Berksfile.lock
 /.vs/*
+*.csproj
+*.suo
