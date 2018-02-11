@@ -1,7 +1,9 @@
-﻿using SecretSantaa.DataAccess;
+﻿using SecretSaanta.Models.Views;
+using SecretSantaa.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -21,17 +23,17 @@ namespace SecretSantaa.Controllers
 
 
         [HttpGet]
-        public async Task<List<Object>> getGroups([FromUri] string username)
+        public async Task<List<GroupView>> getGroups([FromUri] string username)
         {
             var skip = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("skip");
             var take = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("take");
 
             List<Models.Group> groups = await mGroupsRepo.getGroups(username, skip, take);
-            List<Object> groupsView = new List<Object>();
+            List<GroupView> groupsView = new List<GroupView>();
 
             foreach (Models.Group group in groups)
             {
-                groupsView.Add(new { groupName = group.name, groupAdmin = group.mOwner.username, linked = group.mIsLinked });
+                groupsView.Add(new GroupView{ groupName = group.name, groupAdmin = group.mOwner.username, linked = group.mIsLinked });
             }
 
             return groupsView;
@@ -39,27 +41,23 @@ namespace SecretSantaa.Controllers
 
 
         [HttpPost]
-        public async Task<Object> createGroup(Models.Group aGroup) 
+        public async Task<GroupView> createGroup(Models.Group aGroup) 
         {
             var headerKey = "xAuthToken";
             var headers = Request.Headers;
 
             var header = headers.GetValues(headerKey).FirstOrDefault(null);
 
-            if (header != null)
-            {
                 string username = await mSessionsRepo.getUsername(header);
                 if (username != null)
                 {
                     mGroupsRepo.createGroup(aGroup.name, username);
-                    return new { groupName = aGroup.name, adminName = username };
+                    return new GroupView { groupName = aGroup.name, groupAdmin = username, linked = false };
                 }
                 else
                 {
-                    return BadRequest("No corresponding username to the session");
+                    throw new HttpResponseException(HttpStatusCode.BadRequest);
                 }
-            }
-            return BadRequest();
             
         }
 

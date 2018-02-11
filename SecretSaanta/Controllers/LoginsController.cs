@@ -1,4 +1,5 @@
-﻿using SecretSantaa.DataAccess;
+﻿using SecretSaanta.Models.Views;
+using SecretSantaa.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,13 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpPost]
-        public async Task<Models.Session> createSession(Models.User user)
+        public async Task<SessionView> createSession(Models.User user)
         {
-            Models.Session session = new Models.Session();
+            SessionView session = new SessionView();
 
             string sessionToken = await mSessionsRepo.createSession(user);
 
-            session.authToken = sessionToken;
+            session.xAuthToken = sessionToken;
             return session;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecretSaanta.Models.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,9 +10,9 @@ namespace SecretSantaa.Controllers
     public class LinksController : ApiController
     {
         [HttpGet]
-        public Models.User getReceiver([FromUri] string username, [FromUri] string groupName)
+        public UserView getReceiver([FromUri] string username, [FromUri] string groupName)
         {
-            return new Models.User { username = "username" };
+            return new UserView { username = "username" };
         } 
 
         [HttpPost]

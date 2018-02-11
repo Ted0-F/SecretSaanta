@@ -1,4 +1,5 @@
-﻿using SecretSantaa.DataAccess;
+﻿using SecretSaanta.Models.Views;
+using SecretSantaa.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace SecretSantaa.Controllers
 
 
         [HttpGet]
-        public async Task<List<Object>> getUsers()
+        public async Task<List<UserView>> getUsers()
         {
             var skip = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("skip");
             var take = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("take");
@@ -28,29 +29,29 @@ namespace SecretSantaa.Controllers
             var search = HttpUtility.ParseQueryString(Request.RequestUri.Query).Get("search");
 
             List<Models.User> usersList = await mUsersRepo.getUsers(skip, take, order, search);
-            List<Object> usersViewList = new List<Object>();
+            List<UserView> usersViewList = new List<UserView>();
             foreach(Models.User user in usersList) {
-                usersViewList.Add(new { username = user.username });
+                usersViewList.Add(new UserView { username = user.username, displayName = user.displayName });
             }
 
             return usersViewList;
         }
 
         [HttpGet]
-        public async Task<Object> getUser([FromUri] string username)
+        public async Task<UserView> getUser([FromUri] string username)
         {
             Models.User user = await mUsersRepo.getUserByUsername(username);
-            return new { username = user.username, displayName = user.displayName};
+            return new UserView{ username = user.username, displayName = user.displayName };
         }
 
         [HttpPost]
-        public Object createUser(Models.User aUser)
+        public UserView createUser(Models.User aUser)
         {
             aUser.setPassword(aUser.getPassword());
 
             mUsersRepo.createUser(aUser);
 
-            return new { displayName = aUser.displayName};
+            return new UserView{ username = aUser.username, displayName = aUser.displayName };
         }
     }
 }

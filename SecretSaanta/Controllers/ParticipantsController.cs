@@ -1,8 +1,10 @@
 ﻿using SecretSaanta.DataAccess;
+using SecretSaanta.Models.Views;
 using SecretSantaa.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -23,7 +25,7 @@ namespace SecretSantaa.Controllers
         }
 
         [HttpDelete]
-        public async Task<Object> deleteParticipant([FromUri] string groupName, [FromUri] string username)
+        public async void deleteParticipant([FromUri] string groupName, [FromUri] string username)
         {
             var headerKey = "xAuthToken";
             var headers = Request.Headers;
@@ -40,40 +42,37 @@ namespace SecretSantaa.Controllers
                 }
 
             }
-            return BadRequest();
+            throw new HttpResponseException(HttpStatusCode.BadRequest);
         }
 
         [HttpGet]
-        public async Task<Object> getParticipants([FromUri] string groupName)
+        public async Task<List<UserView>> getParticipants([FromUri] string groupName)
         {
             var headerKey = "xAuthToken";
             var headers = Request.Headers;
 
+            //the header is checked to be present in the authentication filter
             var header = headers.GetValues(headerKey).FirstOrDefault(null);
             List<Models.User> participants;
-            List<Object> participantsView = null;
+            List<UserView> participantsView = null;
 
-            if (header != null)
+            string currentUsername = await mSessionsRepo.getUsername(header);
+            string groupAdmin = await mGroupsRepo.getAdmin(groupName);
+            if (currentUsername != null && groupAdmin != null && currentUsername == groupAdmin)
             {
-                string currentUsername = await mSessionsRepo.getUsername(header);
-                string groupAdmin = await mGroupsRepo.getAdmin(groupName);
-                if (currentUsername != null && groupAdmin != null && currentUsername == groupAdmin)
+                participants = await mParticipantsRepo.getParticipants(groupName);
+                participantsView = new List<UserView>();
+                foreach (Models.User participant in participants)
                 {
-                    participants = await mParticipantsRepo.getParticipants(groupName);
-                    participantsView = new List<Object>();
-                    foreach (Models.User participant in participants)
-                    {
-                        participantsView.Add(new { username = participant.username, displayName = participant.displayName});
-                    }
+                    participantsView.Add(new UserView { username = participant.username, displayName = participant.displayName });
                 }
-                else
-                {
-                    //return Forbidden;
-                }
-
+                return participantsView;
             }
-            //return BadRequest;
-            return participantsView;
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+            }
+
 
         }
         
