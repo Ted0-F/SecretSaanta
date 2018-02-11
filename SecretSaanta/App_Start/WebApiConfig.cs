@@ -54,25 +54,13 @@ namespace SecretSaanta
             config.Routes.MapHttpRoute(
                 name: "DeleteParticipants",
                 routeTemplate: "groups/{groupName}/participants/{username}",
-                defaults: new { controller = "Participants" }
+                defaults: new { controller = "Participants", username = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
-                name: "Participants",
-                routeTemplate: "groups/{groupName}/participants",
-                defaults: new { controller = "Participants" }
-            );
-
-            config.Routes.MapHttpRoute(
-                name: "DeleteInvitation",
+                name: "Invitation",
                 routeTemplate: "users/{username}/invitations/{id}",
-                defaults: new { controller = "Invitations" }
-            );
-
-            config.Routes.MapHttpRoute(
-                name: "Invitations",
-                routeTemplate: "users/{username}/invitations",
-                defaults: new { controller = "Invitations" }
+                defaults: new { controller = "Invitations", id = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
