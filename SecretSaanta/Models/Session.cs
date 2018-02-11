@@ -8,5 +8,6 @@ namespace SecretSantaa.Models
     public class Session
     {
         public string authToken { get; set; }
+        public User mUser { get; set; }
     }
 }
