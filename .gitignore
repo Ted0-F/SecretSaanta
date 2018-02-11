@@ -198,3 +198,5 @@ Berksfile.lock
 /.vs/*
 *.csproj
 *.suo
+*.suo
+*.csproj
